@@ -29,8 +29,8 @@ router.get(
       expiresIn: "1h",
     });
 
-    // res.redirect(`${process.env.CLIENT_URL}/dashboard?token=${token}`);
-    res.redirect(`${process.env.CLIENT_URL}/dashboard`);
+    // res.redirect(`${process.env.CLIENT_URL}/?token=${token}`);
+    res.redirect(`${process.env.CLIENT_URL}/`);
   }
 );
 
