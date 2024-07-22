@@ -45,11 +45,11 @@ This project is a Task Manager Application similar to Trello. It allows users to
 2. Install dependencies
     ```javascript
     # For front-end
-    cd client
+    cd frontend
     npm install
     
     # For back-end
-    cd ../server
+    cd ../backend
     npm install
     ```
 3. Set up environment variables
@@ -63,11 +63,11 @@ This project is a Task Manager Application similar to Trello. It allows users to
 4. Run the application
     ```javascript
     # Start the back-end server
-    cd server
+    cd backend
     npm start
     
     # Start the front-end application
-    cd ../client
+    cd ../frontend
     npm start
     ```
 ## Usage
