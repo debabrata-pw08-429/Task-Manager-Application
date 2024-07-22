@@ -14,32 +14,43 @@ import { convertDateTime } from "../../utils/convertDateTime";
 import axios from "axios";
 import { config } from "../../utils/api";
 
+/**
+ * Task component represents an individual task item in the task board.
+ * It allows users to view details, edit, and delete tasks.
+ *
+ * @param {Object} props - The component props.
+ * @param {Object} props.task - The task object containing task details.
+ * @param {Function} props.fetchTasks - Callback function to fetch tasks after editing or deleting.
+ *
+ * @returns {JSX.Element} The rendered task component.
+ */
+
 const Task = ({ task, fetchTasks }) => {
   const [{ isDragging }, drag] = useDrag({
     type: "TASK",
     item: { id: task._id },
     collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(),
+      isDragging: !!monitor.isDragging(), // Determine if the task is currently being dragged
     }),
   });
 
-  const [openView, setOpenView] = useState(false);
-  const [openEdit, setOpenEdit] = useState(false);
-  const [taskDetails, setTaskDetails] = useState(task);
+  const [openView, setOpenView] = useState(false); // State to manage view details modal
+  const [openEdit, setOpenEdit] = useState(false); // State to manage edit task modal
+  const [taskDetails, setTaskDetails] = useState(task); // State to manage task details for editing
 
-  // Handle opening and closing modals
+  // Open and close modal handlers
   const handleOpenView = () => setOpenView(true);
   const handleCloseView = () => setOpenView(false);
   const handleOpenEdit = () => setOpenEdit(true);
   const handleCloseEdit = () => setOpenEdit(false);
 
-  // Handle input change in edit mode
+  // Update taskDetails state on input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setTaskDetails((prevDetails) => ({ ...prevDetails, [name]: value }));
   };
 
-  // Save edited task
+  // Save the edited task details
   const handleSave = async () => {
     try {
       await axios.put(
@@ -49,20 +60,20 @@ const Task = ({ task, fetchTasks }) => {
           headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
         }
       );
-      fetchTasks();
-      handleCloseEdit();
+      fetchTasks(); // Refresh tasks list
+      handleCloseEdit(); // Close edit modal
     } catch (error) {
       console.error("Failed to update task", error);
     }
   };
 
-  // Delete task
+  // Delete the task
   const handleDelete = async () => {
     try {
       await axios.delete(`${config.backendpoint}/tasks/${task._id}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
-      fetchTasks();
+      fetchTasks(); // Refresh tasks list
     } catch (error) {
       console.error("Failed to delete task", error);
     }
@@ -71,7 +82,7 @@ const Task = ({ task, fetchTasks }) => {
   return (
     <>
       <Card
-        ref={drag}
+        ref={drag} // Attach drag functionality
         style={{
           marginBottom: "16px",
           opacity: isDragging ? 0.5 : 1,

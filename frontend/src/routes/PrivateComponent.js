@@ -1,10 +1,10 @@
 import { Navigate } from "react-router-dom";
-// import { AuthContext } from "../context/AuthContext";
 
 const PrivateComponent = ({ element: Component }) => {
-  // const { user } = useContext(AuthContext);
+  // Get the token from local storage
   let token = localStorage.getItem("token");
 
+  // Render the component if token exists, otherwise redirect to login
   return token ? <Component /> : <Navigate to="/login" />;
 };
 
