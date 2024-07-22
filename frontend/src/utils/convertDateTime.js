@@ -19,5 +19,5 @@ export function convertDateTime(dateTimeString) {
   const formattedTime = `${hours % 12 || 12}:${minutes} ${amPm}`;
 
   // Combine formatted date and time with "Created at" prefix
-  return `Created at ${formattedDate}, ${formattedTime}`;
+  return ` ${formattedDate}, ${formattedTime}`;
 }

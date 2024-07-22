@@ -23,22 +23,26 @@ const TaskBoard = () => {
   });
 
   useEffect(() => {
-    const fetchTasks = async () => {
+    fetchTasks();
+  }, []);
+
+  const fetchTasks = async () => {
+    try {
       const response = await axios.get(`${config.backendpoint}/tasks`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       setTasks(response.data);
-    };
-
-    fetchTasks();
-  }, []);
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
+    }
+  };
 
   const handleMoveTask = async (id, newStatus) => {
     const task = tasks.find((task) => task._id === id);
     const updatedTask = { ...task, status: newStatus };
 
     try {
-      let updatedTaskFromBackend = await axios.put(
+      const updatedTaskFromBackend = await axios.put(
         `${config.backendpoint}/tasks/${task._id}`,
         updatedTask,
         {
@@ -57,7 +61,7 @@ const TaskBoard = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setNewTask((prevTask) => ({ ...prevTask, [name]: value, status: "TODO" }));
+    setNewTask((prevTask) => ({ ...prevTask, [name]: value }));
   };
 
   const handleSave = async () => {
@@ -80,7 +84,7 @@ const TaskBoard = () => {
   return (
     <>
       <Header />
-      <Container>
+      <Container sx={{ padding: "21px" }}>
         <Button
           variant="contained"
           color="primary"
@@ -96,6 +100,7 @@ const TaskBoard = () => {
                 status={status}
                 tasks={tasks.filter((task) => task.status === status)}
                 onMoveTask={handleMoveTask}
+                fetchTasks={fetchTasks} // Pass fetchTasks to Column
               />
             </Grid>
           ))}
@@ -114,8 +119,9 @@ const TaskBoard = () => {
               left: "50%",
               transform: "translate(-50%, -50%)",
               width: 400,
+              borderRadius: "5px",
               bgcolor: "background.paper",
-              border: "2px solid #000",
+              border: "3px solid #deefff",
               boxShadow: 24,
               p: 4,
             }}

@@ -8,8 +8,24 @@ const {
 } = require("../controllers/taskController");
 const { protect } = require("../middleware/authMiddleware");
 
-router.route("/").get(protect, getTasks).post(protect, createTask);
+// @route   GET /api/tasks
+// @desc    Get all tasks
+// @access  Private
+router.get("/", protect, getTasks);
 
-router.route("/:id").put(protect, updateTask).delete(protect, deleteTask);
+// @route   POST /api/tasks
+// @desc    Create a new task
+// @access  Private
+router.post("/", protect, createTask);
+
+// @route   PUT /api/tasks/:id
+// @desc    Update a task
+// @access  Private
+router.put("/:id", protect, updateTask);
+
+// @route   DELETE /api/tasks/:id
+// @desc    Delete a task
+// @access  Private
+router.delete("/:id", protect, deleteTask);
 
 module.exports = router;

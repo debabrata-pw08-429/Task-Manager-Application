@@ -1,37 +1,32 @@
 const express = require("express");
-const jwt = require("jsonwebtoken");
 const router = express.Router();
-const { register, login } = require("../controllers/userController");
-const passport = require("passport");
+const {
+  register,
+  login,
+  deleteUser,
+} = require("../controllers/userController");
 const { protect } = require("../middleware/authMiddleware");
 
+// @route   POST /api/users/register
+// @desc    Register a new user
+// @access  Public
 router.post("/register", register);
 
+// @route   POST /api/users/login
+// @desc    Authenticate user and get token
+// @access  Public
 router.post("/login", login);
 
+// @route   GET /api/users/me
+// @desc    Get current user profile
+// @access  Private
 router.get("/me", protect, (req, res) => {
   res.send(req.user);
 });
 
-router.get(
-  "/google",
-  passport.authenticate("google", { scope: ["profile", "email"] })
-);
-
-router.get(
-  "/google/callback",
-  passport.authenticate("google", {
-    failureRedirect: "/",
-    session: false,
-  }),
-  (req, res) => {
-    const token = jwt.sign({ id: req.user._id }, process.env.JWT_SECRET, {
-      expiresIn: "1h",
-    });
-
-    // res.redirect(`${process.env.CLIENT_URL}/?token=${token}`);
-    res.redirect(`${process.env.CLIENT_URL}/`);
-  }
-);
+// @route   DELETE /api/users/delete
+// @desc    Delete current user
+// @access  Private
+router.delete("/delete", protect, deleteUser);
 
 module.exports = router;

@@ -31,7 +31,7 @@ function Header() {
   };
 
   return (
-    <AppBar position="static" sx={{ marginBottom: "21px" }}>
+    <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AssignmentIcon
@@ -64,7 +64,7 @@ function Header() {
             variant="h5"
             noWrap
             component="a"
-            href="#app-bar-with-responsive-menu"
+            href="/"
             sx={{
               mr: 2,
               display: { xs: "flex", md: "none" },
@@ -86,8 +86,8 @@ function Header() {
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar
-                    alt={(user && user.name) || "X"}
-                    src="/static/images/avatar/2.jpg"
+                    alt={(user && user.name) || ""}
+                    src={user && user.photoUrl}
                   />
                 </IconButton>
               </Tooltip>
@@ -122,7 +122,9 @@ function Header() {
 
           {user ? (
             <Button
-              onClick={logout}
+              onClick={async () => {
+                await logout();
+              }}
               sx={{ backgroundColor: "orange", color: "white" }}
             >
               Logout

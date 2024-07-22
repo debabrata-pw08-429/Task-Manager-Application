@@ -1,22 +1,22 @@
-// Import the functions you need from the SDKs you need
+// Import the necessary functions from the Firebase SDK
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
+// Firebase configuration object
 const firebaseConfig = {
-  apiKey: "AIzaSyBhf3_twwSTheJhfSBFTCIqRuHQTc-Jqkg",
-  authDomain: "task-management-app-7d134.firebaseapp.com",
-  projectId: "task-management-app-7d134",
-  storageBucket: "task-management-app-7d134.appspot.com",
-  messagingSenderId: "410151994346",
-  appId: "1:410151994346:web:84dc5af8e199b09c0fa893",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
-// Initialize Firebase
+// Initialize Firebase with the provided configuration
 const firebaseApp = initializeApp(firebaseConfig);
 
-export const auth = getAuth();
+// Get the authentication instance from Firebase
+export const auth = getAuth(firebaseApp); // Pass firebaseApp to getAuth
+
+// Export the initialized Firebase app
 export default firebaseApp;

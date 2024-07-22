@@ -6,30 +6,26 @@ const passport = require("passport");
 const session = require("express-session");
 const cors = require("cors");
 
-// Load environment variables
+// Load environment variables from .env file
 dotenv.config();
 
-// Connect to the database
+// Connect to the MongoDB database
 connectDB();
 
-// Initialize Express app
+// Initialize Express application
 const app = express();
 
-// Middleware
-app.use(express.json());
-app.use(cors());
-app.use(session({ secret: "secret", resave: false, saveUninitialized: false }));
-app.use(passport.initialize());
-app.use(passport.session());
-require("./config/auth");
+// Middleware setup
+app.use(express.json()); // Parse JSON request bodies
+app.use(cors()); // Enable Cross-Origin Resource Sharing
 
-// Routes
+// Define API routes
 app.use("/api/tasks", require("./routes/taskRoutes"));
 app.use("/api/users", require("./routes/userRoutes"));
 
-// Error handler
+// Error handling middleware
 app.use(errorHandler);
 
-// Start the server
+// Start the server and listen on the specified port
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
