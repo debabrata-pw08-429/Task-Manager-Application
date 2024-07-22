@@ -3,7 +3,6 @@ const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 const { errorHandler } = require("./middleware/errorMiddleware");
 const passport = require("passport");
-const session = require("express-session");
 const cors = require("cors");
 
 // Load environment variables from .env file
