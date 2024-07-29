@@ -45,7 +45,7 @@ const GoogleSignIn = () => {
       // Navigate to the home page
       navigate("/");
     } catch (error) {
-      console.error("Failed to login", error.response.data.message);
+      console.error("Failed to login", error?.response?.data?.message);
     }
   };
 

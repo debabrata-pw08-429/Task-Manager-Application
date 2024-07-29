@@ -2,6 +2,7 @@ import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import { config } from "../utils/api";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 // Create a context for authentication
 const AuthContext = createContext();
@@ -26,12 +27,19 @@ const AuthProvider = ({ children }) => {
 
   // Function to handle user login
   const login = async (email, password) => {
+    const toastId = toast.loading("Logging...");
+
     try {
       // Make a request to authenticate the user
       const response = await axios.post(`${config.backendpoint}/users/login`, {
         email,
         password,
       });
+
+      if (response) {
+        toast.dismiss(toastId);
+        toast.success(`Welcome Back! ${response.data.user.name}`);
+      }
 
       // Store token and provider ID in local storage
       localStorage.setItem("token", response?.data?.token);
@@ -41,6 +49,8 @@ const AuthProvider = ({ children }) => {
       setUser(response?.data?.user);
     } catch (error) {
       // Log error message if login fails
+      toast.dismiss(toastId);
+      toast.error(error?.response?.data?.message);
       console.error(error.response.data.message);
     }
   };

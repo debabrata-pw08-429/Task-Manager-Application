@@ -12,7 +12,8 @@ import {
 import axios from "axios";
 import { config } from "../../utils/api";
 import Header from "../Layout/Header";
-import GoogleSignIn from "./GoogleSignIn"; // Optional: Include GoogleSignIn functionality
+import GoogleSignIn from "./GoogleSignIn";
+import toast from "react-hot-toast";
 
 /**
  * Register component allows users to create a new account with email and password.
@@ -51,16 +52,25 @@ const Register = () => {
       password,
     };
 
+    const toastId = toast.loading("Registering new user...");
+
     try {
       // Send registration data to backend
-      await axios.post(
+      const response = await axios.post(
         `${config.backendpoint}/users/register`,
         registrationData
       );
 
+      if (response.status === 201) {
+        toast.dismiss(toastId);
+        toast.success("Successfully Registered!");
+      }
+
       // Navigate to login page after successful registration
       navigate("/login");
     } catch (error) {
+      toast.dismiss(toastId);
+      toast.error(error?.response?.data?.message);
       console.error("Failed to register", error);
     }
   };
