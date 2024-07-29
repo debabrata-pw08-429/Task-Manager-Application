@@ -14,7 +14,7 @@ import { AuthContext } from "../../context/AuthContext";
 import { Button } from "@mui/material";
 import { Link } from "@mui/material";
 
-const settings = ["Profile", "Account", "Dashboard", "Logout"];
+const settings = ["Profile", "Account", "Dashboard", "Logout"]; // For mobile view
 
 function Header() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
